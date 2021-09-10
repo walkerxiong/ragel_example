@@ -6,85 +6,96 @@ import (
     "fmt"
 )
 
+type Mode int
+
+const (
+    modHot Mode = iota
+    modCold 
+    modWind
+)
+
 var (
     status = 0
     tempe = 26
+    mod = modWind
 )
 
 
-//line core/remote_ctrl.go:16
+//line core/remote_ctrl.go:25
 var _remote_ctrl_actions []byte = []byte{
 	0, 1, 0, 1, 1, 1, 2, 1, 3, 
 	1, 4, 1, 5, 1, 6, 1, 7, 
+	1, 8, 
 }
 
 var _remote_ctrl_key_offsets []byte = []byte{
 	0, 0, 2, 4, 6, 8, 10, 12, 
-	14, 16, 17, 19, 23, 25, 
+	14, 16, 18, 20, 21, 23, 27, 29, 
 }
 
 var _remote_ctrl_trans_keys []byte = []byte{
 	69, 101, 67, 99, 78, 110, 67, 99, 
-	82, 114, 85, 117, 82, 114, 78, 110, 
-	32, 79, 111, 70, 78, 102, 110, 70, 
-	102, 10, 32, 68, 73, 84, 100, 105, 
-	116, 
+	82, 114, 79, 111, 68, 100, 85, 117, 
+	82, 114, 78, 110, 32, 79, 111, 70, 
+	78, 102, 110, 70, 102, 10, 32, 68, 
+	73, 77, 84, 100, 105, 109, 116, 
 }
 
 var _remote_ctrl_single_lengths []byte = []byte{
 	0, 2, 2, 2, 2, 2, 2, 2, 
-	2, 1, 2, 4, 2, 8, 
+	2, 2, 2, 1, 2, 4, 2, 10, 
 }
 
 var _remote_ctrl_range_lengths []byte = []byte{
 	0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 0, 
+	0, 0, 0, 0, 0, 0, 0, 0, 
 }
 
 var _remote_ctrl_index_offsets []byte = []byte{
 	0, 0, 3, 6, 9, 12, 15, 18, 
-	21, 24, 26, 29, 34, 37, 
+	21, 24, 27, 30, 32, 35, 40, 43, 
 }
 
 var _remote_ctrl_indicies []byte = []byte{
 	0, 0, 1, 2, 2, 1, 3, 3, 
 	1, 4, 4, 1, 5, 5, 1, 6, 
 	6, 1, 7, 7, 1, 8, 8, 1, 
-	9, 1, 10, 10, 1, 11, 12, 11, 
-	12, 1, 13, 13, 1, 14, 15, 16, 
-	17, 18, 16, 17, 18, 1, 
+	9, 9, 1, 10, 10, 1, 11, 1, 
+	12, 12, 1, 13, 14, 13, 14, 1, 
+	15, 15, 1, 16, 17, 18, 19, 20, 
+	21, 18, 19, 20, 21, 1, 
 }
 
 var _remote_ctrl_trans_targs []byte = []byte{
-	2, 0, 13, 4, 5, 13, 7, 8, 
-	9, 10, 11, 12, 13, 13, 13, 13, 
-	1, 3, 6, 
+	2, 0, 15, 4, 5, 15, 7, 15, 
+	9, 10, 11, 12, 13, 14, 15, 15, 
+	15, 15, 1, 3, 6, 8, 
 }
 
 var _remote_ctrl_trans_actions []byte = []byte{
-	0, 0, 9, 0, 0, 7, 0, 0, 
-	0, 0, 0, 0, 11, 13, 15, 5, 
-	0, 0, 0, 
+	0, 0, 9, 0, 0, 7, 0, 15, 
+	0, 0, 0, 0, 0, 0, 11, 13, 
+	17, 5, 0, 0, 0, 0, 
 }
 
 var _remote_ctrl_to_state_actions []byte = []byte{
 	0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 1, 
+	0, 0, 0, 0, 0, 0, 0, 1, 
 }
 
 var _remote_ctrl_from_state_actions []byte = []byte{
 	0, 0, 0, 0, 0, 0, 0, 0, 
-	0, 0, 0, 0, 0, 3, 
+	0, 0, 0, 0, 0, 0, 0, 3, 
 }
 
-const remote_ctrl_start int = 13
-const remote_ctrl_first_final int = 13
+const remote_ctrl_start int = 15
+const remote_ctrl_first_final int = 15
 const remote_ctrl_error int = 0
 
-const remote_ctrl_en_main int = 13
+const remote_ctrl_en_main int = 15
 
 
-//line core/remote_ctrl.rl:26
+//line core/remote_ctrl.rl:36
 
 
 func Command(data string){
@@ -95,7 +106,7 @@ func Command(data string){
     _ = ts
     _ = te
     
-//line core/remote_ctrl.go:99
+//line core/remote_ctrl.go:110
 	{
 	cs = remote_ctrl_start
 	ts = 0
@@ -103,7 +114,7 @@ func Command(data string){
 	act = 0
 	}
 
-//line core/remote_ctrl.go:107
+//line core/remote_ctrl.go:118
 	{
 	var _klen int
 	var _trans int
@@ -126,7 +137,7 @@ _resume:
 //line NONE:1
 ts = p
 
-//line core/remote_ctrl.go:130
+//line core/remote_ctrl.go:141
 		}
 	}
 
@@ -196,7 +207,7 @@ _match:
 		_acts++
 		switch _remote_ctrl_actions[_acts-1] {
 		case 2:
-//line core/remote_ctrl.rl:37
+//line core/remote_ctrl.rl:47
 te = p+1
 
 		case 3:
@@ -216,22 +227,38 @@ te = p+1
         }
     }
 		case 5:
-//line core/remote_ctrl.rl:17
+//line core/remote_ctrl.rl:27
 te = p+1
 {
         status = 1
     }
 		case 6:
-//line core/remote_ctrl.rl:21
+//line core/remote_ctrl.rl:31
 te = p+1
 {
         status = 0
     }
 		case 7:
-//line core/remote_ctrl.rl:42
+//line core/mode.rl:4
+te = p+1
+{
+        if status == 0{
+            return
+        }
+        switch mod {
+            case modHot:
+                mod = modCold
+            case modCold:
+                mod = modWind
+            case modWind:
+                mod = modHot
+        }
+    }
+		case 8:
+//line core/remote_ctrl.rl:53
 te = p+1
 {return;}
-//line core/remote_ctrl.go:235
+//line core/remote_ctrl.go:262
 		}
 	}
 
@@ -245,7 +272,7 @@ _again:
 //line NONE:1
 ts = 0
 
-//line core/remote_ctrl.go:249
+//line core/remote_ctrl.go:276
 		}
 	}
 
@@ -260,7 +287,7 @@ ts = 0
 	_out: {}
 	}
 
-//line core/remote_ctrl.rl:47
+//line core/remote_ctrl.rl:58
 
 }
 
@@ -269,7 +296,20 @@ func PrintCurrentState(){
     if status == 1{
         statusStr = "开机"
     }
-    fmt.Printf("当前状态：%s\n当前温度：%d\n",statusStr,tempe)
+    fmt.Printf("当前状态：%s\n当前温度：%d\n当前模式: %s\n",statusStr,tempe,mod)
     fmt.Println("=========================")
     return;
+}
+
+
+func (m Mode)String()string{
+    switch m {
+        case modHot:
+            return "热风模式"
+        case modCold:
+            return "冷风模式"
+        case modWind:
+            return "吹风模式"
+    }
+    return "模式异常"
 }
